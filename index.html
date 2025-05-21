@@ -3,107 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قياس سرعة الإنترنت</title>
+    <title>SpeedTest - قياس سرعة الإنترنت</title>
     <style>
+        :root {
+            --primary-color: #0066ff;
+            --secondary-color: #0055cc;
+            --background-color: #f0f0f0;
+            --text-color: #333;
+            --light-text: #666;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
             margin: 0;
             padding: 0;
             text-align: center;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            color: var(--text-color);
         }
+        
+        header {
+            padding: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
         .logo {
-            margin: 20px auto;
-            width: 150px;
-            height: 150px;
-            background-color: #0066ff;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            background-color: var(--primary-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
         }
+        
         .container {
-            margin-top: 30px;
             flex: 1;
+            padding: 30px 20px;
+            max-width: 800px;
+            margin: 0 auto;
         }
+        
         h1 {
-            color: #333;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .speed-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             margin-bottom: 30px;
         }
+        
         .speedometer {
-            margin: 30px auto;
-            font-size: 3em;
-            font-weight: bold;
-            color: #0066ff;
-        }
-        .speed-unit {
-            font-size: 0.5em;
-            color: #666;
-        }
-        .btn {
-            background-color: #0066ff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 20px;
-        }
-        .btn:hover {
-            background-color: #0055cc;
-        }
-        .details {
-            margin-top: 20px;
-            color: #666;
-            padding: 0 20px;
-        }
-        .progress-bar {
-            width: 80%;
-            height: 10px;
-            background-color: #ddd;
             margin: 20px auto;
+        }
+        
+        .speed-value {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        .speed-unit {
+            font-size: 18px;
+            color: var(--light-text);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #eee;
             border-radius: 5px;
+            margin: 25px 0;
             overflow: hidden;
         }
+        
         .progress {
             height: 100%;
-            background-color: #0066ff;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             width: 0%;
-            transition: width 0.3s;
+            transition: width 0.3s ease;
         }
-        footer {
-            background-color: #333;
+        
+        .btn {
+            background-color: var(--primary-color);
             color: white;
-            padding: 15px 0;
-            margin-top: 30px;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 15px 0;
+            box-shadow: 0 4px 10px rgba(0, 102, 255, 0.3);
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 102, 255, 0.4);
+        }
+        
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .details {
+            margin-top: 20px;
+            color: var(--light-text);
+            font-size: 16px;
+            min-height: 24px;
+        }
+        
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            padding: 20px 0;
             font-size: 14px;
+        }
+        
+        .test-info {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .info-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px;
+            flex: 1;
+            min-width: 120px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .info-label {
+            font-size: 14px;
+            color: var(--light-text);
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 600px) {
+            .speed-value {
+                font-size: 36px;
+            }
+            
+            .btn {
+                padding: 10px 25px;
+                font-size: 16px;
+            }
+            
+            .logo {
+                width: 90px;
+                height: 90px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="logo">SpeedTest</div>
+    <header>
+        <div class="logo">SpeedTest</div>
+    </header>
     
     <div class="container">
-        <h1>سرعة الإنترنت لديك</h1>
-        <div class="speedometer">
-            <div class="speed-value" id="speedValue">0</div>
-            <div class="speed-unit">ميجابايت/ثانية</div>
+        <h1>اختبار سرعة الإنترنت</h1>
+        
+        <div class="speed-container">
+            <div class="speedometer">
+                <div class="speed-value" id="speedValue">0</div>
+                <div class="speed-unit">ميجابايت/ثانية</div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            
+            <button id="startTest" class="btn">بدء الاختبار</button>
+            
+            <div class="details" id="details">
+                اضغط على "بدء الاختبار" لقياس سرعة الإنترنت لديك
+            </div>
         </div>
-        <div class="progress-bar">
-            <div class="progress" id="progressBar"></div>
-        </div>
-        <button id="startTest" class="btn">بدء الاختبار</button>
-        <div class="details" id="details">
-            اضغط على "بدء الاختبار" لقياس السرعة
+        
+        <div class="test-info">
+            <div class="info-box">
+                <div class="info-label">حجم الملف</div>
+                <div class="info-value" id="fileSize">10 MB</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">الوقت المستغرق</div>
+                <div class="info-value" id="timeElapsed">0 ثانية</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">البيانات المنقولة</div>
+                <div class="info-value" id="dataTransferred">0 MB</div>
+            </div>
         </div>
     </div>
 
@@ -115,53 +233,97 @@
         // إضافة السنة الحالية تلقائياً
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        document.getElementById('startTest').addEventListener('click', startRealSpeedTest);
+        // عناصر الواجهة
+        const speedValue = document.getElementById('speedValue');
+        const details = document.getElementById('details');
+        const progressBar = document.getElementById('progressBar');
+        const startBtn = document.getElementById('startTest');
+        const timeElapsed = document.getElementById('timeElapsed');
+        const dataTransferred = document.getElementById('dataTransferred');
+        
+        // إعدادات الاختبار
+        const testFileSize = 10; // حجم الملف بالميجابايت
+        document.getElementById('fileSize').textContent = `${testFileSize} MB`;
+        
+        // روابط الملفات للاختبار (يجب استبدالها بروابط حقيقية)
+        const testFiles = [
+            `https://httpbin.org/bytes/${testFileSize * 1024 * 1024}`,
+            // يمكن إضافة ملفات من خوادم متعددة لتحسين الدقة
+        ];
 
-        async function startRealSpeedTest() {
-            const speedValue = document.getElementById('speedValue');
-            const details = document.getElementById('details');
-            const progressBar = document.getElementById('progressBar');
-            const testFileUrl = 'https://httpbin.org/bytes/10485760'; // ملف 10 ميجابايت
-            
+        startBtn.addEventListener('click', startSpeedTest);
+
+        async function startSpeedTest() {
+            // إعادة تعيين القيم
             speedValue.textContent = '0';
-            details.innerHTML = 'جارٍ تحميل البيانات لقياس السرعة...';
+            details.innerHTML = 'جارٍ إعداد الاختبار...';
             progressBar.style.width = '0%';
-            document.getElementById('startTest').disabled = true;
-
-محمد إحسان, [5/21/2025 11:46 PM]
-try {
+            startBtn.disabled = true;
+            timeElapsed.textContent = '0 ثانية';
+            dataTransferred.textContent = '0 MB';
+            
+            try {
                 const startTime = performance.now();
-                let loadedBytes = 0;
+                let totalLoadedBytes = 0;
+                let testResults = [];
                 
-                const response = await fetch(testFileUrl);
-                const reader = response.body.getReader();
-                const totalBytes = +response.headers.get('Content-Length');
-                
-                let chunks = [];
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-                    
-                    chunks.push(value);
-                    loadedBytes += value.length;
-                    const progress = (loadedBytes / totalBytes) * 100;
-                    progressBar.style.width = ${progress}%;
-                    
-                    const elapsedTime = (performance.now() - startTime) / 1000;
-                    const speedMBps = (loadedBytes / (elapsedTime * 1024 * 1024)).toFixed(2);
-                    speedValue.textContent = speedMBps;
+                // اختبار كل ملف
+                for (const fileUrl of testFiles) {
+                    const result = await testFile(fileUrl, startTime);
+                    testResults.push(result);
+                    totalLoadedBytes += result.loadedBytes;
                 }
                 
-                const finalTime = (performance.now() - startTime) / 1000;
-                const finalSpeedMBps = (totalBytes / (finalTime * 1024 * 1024)).toFixed(2);
-                speedValue.textContent = finalSpeedMBps;
-                details.innerHTML = اكتمل الاختبار! السرعة النهائية: ${finalSpeedMBps} ميجابايت/ثانية;
+                // حساب متوسط السرعة
+                const totalTime = (performance.now() - startTime) / 1000;
+                const avgSpeed = (totalLoadedBytes / (totalTime * 1024 * 1024)).toFixed(2);
+                
+                // عرض النتائج
+                speedValue.textContent = avgSpeed;
+                details.innerHTML = `اكتمل الاختبار! السرعة المتوسطة: <strong>${avgSpeed} ميجابايت/ثانية</strong>`;
+                timeElapsed.textContent = `${totalTime.toFixed(2)} ثانية`;
+                dataTransferred.textContent = `${(totalLoadedBytes / (1024 * 1024)).toFixed(2)} MB`;
                 
             } catch (error) {
-                details.innerHTML = 'حدث خطأ أثناء الاختبار: ' + error.message;
+                details.innerHTML = `حدث خطأ: ${error.message}`;
+                console.error(error);
             } finally {
-                document.getElementById('startTest').disabled = false;
+                startBtn.disabled = false;
             }
+        }
+
+        async function testFile(fileUrl, globalStartTime) {
+            let loadedBytes = 0;
+            const startTime = performance.now();
+            const fileSize = testFileSize * 1024 * 1024;
+            
+            details.innerHTML = 'جارٍ قياس السرعة...';
+            
+            const response = await fetch(fileUrl);
+            const reader = response.body.getReader();
+            
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                
+                loadedBytes += value.length;
+                
+                // تحديث الواجهة
+                const progress = (loadedBytes / fileSize) * 100;
+                progressBar.style.width = `${progress}%`;
+                
+                const currentTime = (performance.now() - globalStartTime) / 1000;
+                const currentSpeed = (loadedBytes / (currentTime * 1024 * 1024)).toFixed(2);
+                
+                speedValue.textContent = currentSpeed;
+                timeElapsed.textContent = `${currentTime.toFixed(2)} ثانية`;
+                dataTransferred.textContent = `${(loadedBytes / (1024 * 1024)).toFixed(2)} MB`;
+            }
+            
+            return {
+                loadedBytes,
+                timeTaken: (performance.now() - startTime) / 1000
+            };
         }
     </script>
 </body>
