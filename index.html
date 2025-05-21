@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قياس سرعة الإنترنت</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .logo {
+            margin: 20px auto;
+            width: 150px;
+            height: 150px;
+            background-color: #0066ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .container {
+            margin-top: 30px;
+            flex: 1;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .speedometer {
+            margin: 30px auto;
+            font-size: 3em;
+            font-weight: bold;
+            color: #0066ff;
+        }
+        .speed-unit {
+            font-size: 0.5em;
+            color: #666;
+        }
+        .btn {
+            background-color: #0066ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #0055cc;
+        }
+        .details {
+            margin-top: 20px;
+            color: #666;
+            padding: 0 20px;
+        }
+        .progress-bar {
+            width: 80%;
+            height: 10px;
+            background-color: #ddd;
+            margin: 20px auto;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background-color: #0066ff;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 15px 0;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">SpeedTest</div>
+    
+    <div class="container">
+        <h1>سرعة الإنترنت لديك</h1>
+        <div class="speedometer">
+            <div class="speed-value" id="speedValue">0</div>
+            <div class="speed-unit">ميجابايت/ثانية</div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+        </div>
+        <button id="startTest" class="btn">بدء الاختبار</button>
+        <div class="details" id="details">
+            اضغط على "بدء الاختبار" لقياس السرعة
+        </div>
+    </div>
+
+    <footer>
+        جميع الحقوق محفوظة &copy; <span id="year"></span> - محمد إحسان
+    </footer>
+
+    <script>
+        // إضافة السنة الحالية تلقائياً
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        document.getElementById('startTest').addEventListener('click', startRealSpeedTest);
+
+        async function startRealSpeedTest() {
+            const speedValue = document.getElementById('speedValue');
+            const details = document.getElementById('details');
+            const progressBar = document.getElementById('progressBar');
+            const testFileUrl = 'https://httpbin.org/bytes/10485760'; // ملف 10 ميجابايت
+            
+            speedValue.textContent = '0';
+            details.innerHTML = 'جارٍ تحميل البيانات لقياس السرعة...';
+            progressBar.style.width = '0%';
+            document.getElementById('startTest').disabled = true;
+
+محمد إحسان, [5/21/2025 11:46 PM]
+try {
+                const startTime = performance.now();
+                let loadedBytes = 0;
+                
+                const response = await fetch(testFileUrl);
+                const reader = response.body.getReader();
+                const totalBytes = +response.headers.get('Content-Length');
+                
+                let chunks = [];
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    chunks.push(value);
+                    loadedBytes += value.length;
+                    const progress = (loadedBytes / totalBytes) * 100;
+                    progressBar.style.width = ${progress}%;
+                    
+                    const elapsedTime = (performance.now() - startTime) / 1000;
+                    const speedMBps = (loadedBytes / (elapsedTime * 1024 * 1024)).toFixed(2);
+                    speedValue.textContent = speedMBps;
+                }
+                
+                const finalTime = (performance.now() - startTime) / 1000;
+                const finalSpeedMBps = (totalBytes / (finalTime * 1024 * 1024)).toFixed(2);
+                speedValue.textContent = finalSpeedMBps;
+                details.innerHTML = اكتمل الاختبار! السرعة النهائية: ${finalSpeedMBps} ميجابايت/ثانية;
+                
+            } catch (error) {
+                details.innerHTML = 'حدث خطأ أثناء الاختبار: ' + error.message;
+            } finally {
+                document.getElementById('startTest').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
